@@ -1,54 +1,33 @@
-<template>
-
-  <div class="">
-    <a v-on:click="addNewUser()" >
-      <img src="./assets/add.svg" width="40" height="40">
-    </a>
-
-    <p>
-      <label>Name</label>
-      <input type="text" v-model="newUser.name">
-    </p>
-
-    <p>
-      <label>Login</label>
-      <input type="text" v-model="newUser.login">
-    </p>
-
-    <p>
-      <label>Password</label>
-      <input type="password" v-model="newUser.password">
-    </p>
-
-
-    <table border=1>
-      <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Login</th>
-        <th>Password</th>
-        <th>Remove</th>
-      </tr>
-      <tr v-for="(user, index) in userList"
-          :key="index">
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.login}}</td>
-        <td>{{ user.password}}</td>
-        <td>
-          <a v-on:click="removeUser(user.id)">
-            <img src="./assets/remove.svg" width="32" height="32">
-          </a>
-        </td>
-      </tr>
-    </table>
-  </div>
+<template lang='pug'>
+.container
+    .row
+      .col-md-4
+      .box.border.rounded.col-md-3.mt-3
+        p.text-center.mt-3
+          label Name :
+          input(type='text' v-model='newUser.name')
+        p.text-center
+          label Login :
+          input(type='text' v-model='newUser.login')
+        p.text-center
+          label Password :
+          input(type='password' v-model='newUser.password')
+        p.text-center
+          a(@:click='addNewUser()')
+            img(src='./assets/add.svg' width='40' height='40')
+    <ListOfUser :userList=userList />
 </template>
 
 <script>
+import ListOfUser from './components/ListOfUser.vue'
 
   export default {
     name: 'HelloWorld',
+
+    components:{
+      ListOfUser
+    },
+
     data(){
       return {
         userList: [
@@ -74,17 +53,12 @@
           login: '',
           password: ''
         }
+
       }
     },
     methods: {
-      removeUser(id) {
-        for (let i = 0; i < this.userList.length; i++) {
-          if (this.userList[i].id === id) {
-            this.userList.splice(i, 1);
-          }
-        }
-      },
       addNewUser() {
+
         this.userList.push({
           id: this.userList.length + 1,
           name: this.newUser.name,
