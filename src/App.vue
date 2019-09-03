@@ -1,31 +1,18 @@
 <template lang='pug'>
-.container
-    .row
-      .col-md-4
-      .box.border.rounded.col-md-3.mt-3
-        p.text-center.mt-3
-          label Name :
-          input(type='text' v-model='newUser.name')
-        p.text-center
-          label Login :
-          input(type='text' v-model='newUser.login')
-        p.text-center
-          label Password :
-          input(type='password' v-model='newUser.password')
-        p.text-center
-          a(@:click='addNewUser()')
-            img(src='./assets/add.svg' width='40' height='40')
-    <ListOfUser :userList=userList />
+.container  <!--Должен быть обернут в один div рендерим компоненты -->
+  newUserForm(:userList='userList')
+  listOfUser(:userList='userList')
 </template>
 
 <script>
-import ListOfUser from './components/ListOfUser.vue'
+import newUserForm from './components/NewUserForm.vue'
+import listOfUser from './components/ListOfUser.vue'    //Импортируем компоненты в App
 
   export default {
-    name: 'HelloWorld',
-
-    components:{
-      ListOfUser
+    name: 'app',
+    components:{    //Добавим локальные компоненты
+      newUserForm,
+      listOfUser
     },
 
     data(){
@@ -47,27 +34,7 @@ import ListOfUser from './components/ListOfUser.vue'
           { id: 14, name: 'Sanek', login: 'MRG_Sanek', password:"Sanekkk"},
           { id: 15, name: 'Serega', login: 'GREY', password:"3145Wqq1"},
           { id: 16, name: 'Irina', login: 'Beller', password:"qwerty"}
-        ],
-        newUser: {
-          name: '',
-          login: '',
-          password: ''
-        }
-
-      }
-    },
-    methods: {
-      addNewUser() {
-
-        this.userList.push({
-          id: this.userList.length + 1,
-          name: this.newUser.name,
-          login: this.newUser.login,
-          password: this.newUser.password,
-        });
-        this.newUser.name="";
-        this.newUser.login="";
-        this.newUser.password="";
+        ]
       }
     }
   }
