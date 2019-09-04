@@ -63,7 +63,7 @@
             this.userList.splice(i, 1);
           }
         }
-      },
+      }
     }
   }
 </script>

@@ -14,7 +14,7 @@
 
               label.col-form-label Password
               input.form-control(type='password' v-model='newUser.password')
-              
+
               img(@click='addNewUser' src='../assets/add.svg' width='40' height='40')
 </template>
 
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     addNewUser() {
-      console.log(1)
+
         this.userList.push({
           id: this.userList.length + 1,
           name: this.newUser.name,
