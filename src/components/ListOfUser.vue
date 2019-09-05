@@ -57,10 +57,7 @@
     methods: {
       removeUser(id) {    //функция удаления пользователей
         this.deleteUser(id)
-        // for (let i = 0; i < this.userList.length; i++) {
-        //   if (this.userList[i].id === id) {
-        //     this.userList.splice(i, 1);
-        // }
+        return 1;
       }
     }
   }
