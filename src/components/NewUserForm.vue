@@ -1,5 +1,4 @@
 <template lang='pug'>
-
     .row.justify-content-center.text-center
       .card.col-4.my-2
         .card-body
@@ -20,7 +19,7 @@
 
 <script>
 export default {
-  props: ['userList'],
+  props: ['userList','addUser'],
 
   data(){
     return {
@@ -31,15 +30,17 @@ export default {
       }
     }
   },
+
   methods: {
     addNewUser() {
+      this.addUser(this.newUser.name, this.newUser.login, this.newUser.password)
+        // this.userList.push({
+        //   id: this.userList.length + 1,
+        //   name: this.newUser.name,
+        //   login: this.newUser.login,
+        //   password: this.newUser.password,
+        // });
 
-        this.userList.push({
-          id: this.userList.length + 1,
-          name: this.newUser.name,
-          login: this.newUser.login,
-          password: this.newUser.password,
-        });
         this.newUser.name="";
         this.newUser.login="";
         this.newUser.password="";

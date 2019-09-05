@@ -20,15 +20,15 @@
       td {{ user.login}}
       td {{ user.password}}
       td
-        a(@click='removeUser(user.id)')
+        a(@click='removeUser(user.id)' )
           img(src='../assets/remove.svg' width='32' height='32')
 </template>
 
+
 <script>
 
-
   export default {
-    props: ['userList'],  // массив с App.vue
+    props: ['userList','deleteUser'],  // массив с App.vue
 
     data(){
       return {
@@ -37,33 +37,32 @@
         sortUp: ''
       }
     },
+
     computed:{    // вычисляемое свойство
       sortTableUp: function() {   //Функция сортировки
         let col = this.sortResult     //переменная хранящая название колонки
         let dir = this.sortDirection  //переменная хранящая в себе значение up & down
-        if(dir=='up'){
+
+
         return this.userList.slice().sort(function(a, b) {
-          if (a[col] > b[col]) return 1;
-          else if (a[col] < b[col]) return -1;
+          let modifier = -1;
+          if(dir=='up') modifier = 1
+          if (a[col] > b[col]) return 1*modifier;
+          else if (a[col] < b[col]) return -1*modifier;
           else return 0;
         })
-      }else{
-        return this.userList.slice().sort(function(a, b) {
-          if (a[col] < b[col]) return 1;
-          else if (a[col] > b[col]) return -1;
-          else return 0;
-      })
-      }
-  }
+    }
 },
+
     methods: {
       removeUser(id) {    //функция удаления пользователей
-        for (let i = 0; i < this.userList.length; i++) {
-          if (this.userList[i].id === id) {
-            this.userList.splice(i, 1);
-          }
-        }
+        this.deleteUser(id)
+        // for (let i = 0; i < this.userList.length; i++) {
+        //   if (this.userList[i].id === id) {
+        //     this.userList.splice(i, 1);
+        // }
       }
     }
   }
+
 </script>
