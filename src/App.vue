@@ -34,11 +34,11 @@ import listOfUser from './components/ListOfUser.vue'; //Импортируем �
     },
 
     addUser(name, login, password) { //связываем с помощью axios удаление на сервере
-      let self = this;
+      let self = this;			// ??????????????????????????????????????????
       axios({
-        method: 'post', //метод запроса
+        method: 'post', //метод запроса POST
         url: 'http://localhost:3000/ajax/users/add',
-        data: {
+        data: {	// у Post должен быть data а не params
           name,
           login,
           password
@@ -50,16 +50,16 @@ import listOfUser from './components/ListOfUser.vue'; //Импортируем �
     },
 
     deleteUser(id) {
-      let self = this;
+      let self = this;				// ??????????????????????????????????????????
       axios({
-        method: 'get',
+        method: 'get',	//метод запроса GET
         url: 'http://localhost:3000/ajax/users/delete',
-        params: {
+        params: { //у GET должен быть params а не data
           id
         }
       })
       .then(() => {
-        this.refresh() //если метод выполнится удачно обновим страницу
+        this.refresh() //после удачного выполнения метода выполнится обновление таблицы
       })
     }
     }
