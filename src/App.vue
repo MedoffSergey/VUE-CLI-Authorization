@@ -1,5 +1,6 @@
 <template lang='pug'>
-.container  <!--Должен быть обернут в один div / рендерим компоненты -->
+.div <!--Должен быть обернут в один div / рендерим компоненты -->
+	index(:userList='userList')
 	newUserForm(:addUser='addUser')
 	listOfUser(:userList='userList'  :deleteUser='deleteUser')
 </template>
@@ -7,6 +8,7 @@
 
 <script>
 import axios from 'axios';
+import index from './components/Index.vue';
 import newUserForm from './components/NewUserForm.vue';
 import listOfUser from './components/ListOfUser.vue'; //Импортируем компоненты
 
@@ -14,14 +16,15 @@ import listOfUser from './components/ListOfUser.vue'; //Импортируем �
   name: 'app',
   components: { //Добавим локальные компоненты
     newUserForm,
-    listOfUser
+    listOfUser,
+		index
   },
 
-  data() {
+  data() { //переменные которые можно использовать в шаблоне
     return {
       userList: []
     }
-  }, //переменные которые можно использовать в шаблоне
+  },
 
   mounted() {
     this.refresh()  //вызываем methods refresh для обновления списка пользователей
@@ -34,7 +37,6 @@ import listOfUser from './components/ListOfUser.vue'; //Импортируем �
     },
 
     addUser(name, login, password) { //связываем с помощью axios удаление на сервере
-      let self = this;			// ??????????????????????????????????????????
       axios({
         method: 'post', //метод запроса POST
         url: 'http://localhost:3000/ajax/users/add',
@@ -50,18 +52,18 @@ import listOfUser from './components/ListOfUser.vue'; //Импортируем �
     },
 
     deleteUser(id) {
-      let self = this;				// ??????????????????????????????????????????
       axios({
-        method: 'get',	//метод запроса GET
+        method: 'post',
         url: 'http://localhost:3000/ajax/users/delete',
-        params: { //у GET должен быть params а не data
+        data: { //у GET должен быть params а не data
           id
         }
       })
       .then(() => {
         this.refresh() //после удачного выполнения метода выполнится обновление таблицы
       })
-    }
+    },
+
     }
   }
 </script>
