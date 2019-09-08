@@ -55,11 +55,7 @@
     }
 },
 
-    methods: {
-      deleteUser(id) {    //функция удаления пользователей
-        return 1;
-      }
-    }
+
   }
 
 </script>

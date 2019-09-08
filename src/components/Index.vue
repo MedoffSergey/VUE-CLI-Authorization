@@ -14,18 +14,6 @@
           b-nav-form
             b-form-input.mr-sm-2(size="sm" placeholder="Search" )
             b-button.my-2.my-sm-0(size="sm" type="submit" variant="info") Поиск
-            //-
-            //- b-button.m-2(variant="success" size='sm' v-b-modal.modal-1="") Вход
-
-            //- b-modal#modal-1(ref="my-modal" title="Authorization"   )
-            //-   form(ref="form" @submit.stop.prevent="handleSubmit")
-            //-     b-form-group( label="Name" label-for="name-input" )
-            //-       b-form-input#name-input( v-model='User.name' )
-            //-     b-form-group( label="Password" label-for="name-input" )
-            //-       b-form-input#name-input( v-model='User.password'  )
-
-
-
 
             b-button#show-btn.m-2(variant="success" size='sm' @click="$bvModal.show('bv-modal-example')") Вход
 
@@ -34,19 +22,17 @@
                 h4 User Authorization
               .d-block.text-center
                 form(ref="form" )
-                    b-form-group( label="Name" label-for="name-input" )
-                      b-form-input#name-input( v-model='User.name' )
+                    b-form-group( label="Login" label-for="login-input" )
+                      b-form-input#login-input( v-model='User.login' )
                     b-form-group( label="Password" label-for="password-input" )
-                      b-form-input#name-input( v-model='User.password'  )
+                      b-form-input#password-input( v-model='User.password'  )
 
-                    b-button.mt-2(variant="outline-success" block="" @click="updateField") Войти
-                    b-button.mt-2(variant="outline-danger" block="" @click="hideModal") Отмена
-
-
+                    b-button.mx-2(variant="outline-success" @click="userVerification(User.login,User.password)") Войти
+                    b-button.mx-2(variant="outline-danger" @click="hideModal") Отмена
 
 
     h1 Logins&&password
-    h1 {{User.name}}
+    h1 {{User.login}}
     h1 {{User.password}}
 </template>
 
@@ -54,29 +40,27 @@
 
 <script>
 export default {
-  props: ['addUser'],
+  props: ['updateField'],
 
   data(){
     return {
       User: {
-        name: '',
+        login: '',
         password: ''
       }
     }
   },
 
   methods: {
-    updateField() {
-      
-
-        this.User.name="";
-        this.User.password="";
-        console.log(1)
-    },
-
     hideModal() { //кнопка закрытия модельного окна
     this.$refs['my-modal'].hide()
-    }
+  },
+  userVerification(){
+    updateField(this.User.login, this.User.password)
+
+    this.User.login="";
+    this.User.password="";
   }
+}
 }
 </script>

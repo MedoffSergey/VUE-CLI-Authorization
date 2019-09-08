@@ -1,6 +1,6 @@
 <template lang='pug'>
 .div <!--Должен быть обернут в один div / рендерим компоненты -->
-	index(:userList='userList')
+	index(:updateField='updateField')
 	newUserForm(:addUser='addUser')
 	listOfUser(:userList='userList'  :deleteUser='deleteUser')
 </template>
@@ -64,6 +64,19 @@ import listOfUser from './components/ListOfUser.vue'; //Импортируем �
       })
     },
 
+		updateField(login,password) {
+			axios({
+				method: 'post',
+				url: 'http://localhost:3000/ajax/users//ajax/users/dataСhecking',
+				data: { //у GET должен быть params а не data
+					login,
+					password
+				}
+			})
+			.then(() => {
+				this.refresh() //после удачного выполнения метода выполнится обновление таблицы
+			})
     }
   }
+}
 </script>

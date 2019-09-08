@@ -15,7 +15,7 @@
             label.col-form-label Password
             input.form-control(type='password' v-model='newUser.password')
 
-            img(@click='addNewUser' src='../assets/add.svg' width='40' height='40')
+          img(@click='addNewUser' src='../assets/add.svg' width='40' height='40')
 </template>
 
 <script>
@@ -35,7 +35,6 @@ export default {
   methods: {
     addNewUser() {
       this.addUser(this.newUser.name, this.newUser.login, this.newUser.password)
-
 
         this.newUser.name="";
         this.newUser.login="";
