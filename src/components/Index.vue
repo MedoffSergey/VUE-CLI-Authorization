@@ -1,15 +1,12 @@
 <template lang='pug'>
-div
 	.container
-		b-card.col-4.text-center.mx-auto.mt-5(bg-variant="light")
-			b-form-group( label="Login" label-for="login-input" )
+		b-card.col-4.mx-auto.mt-5.text-success( header="АВТОРИЗАЦИЯ"  bg-variant="light" align="center" )
+
+			b-form-group.text-left.text-dark( label="Логин" label-for="login-input" )
 				b-form-input#login-input( v-model='User.login')
-			b-form-group( label="Password" label-for="password-input"  )
+			b-form-group.text-left.text-dark( label="Пароль" label-for="password-input"  )
 				b-form-input#password-input(type='password' v-model='User.password')
-
-			b-button.mx-2(variant="outline-success" @click="userVerification(User.login,User.password)") Войти
-
-
+			b-button.mt-5.btn-block(gooter variant="outline-success" @click="userVerification(User.login,User.password)") Войти
 </template>
 
 <script>
@@ -31,7 +28,6 @@ export default {
 
       this.User.login = "";
       this.User.password = "";
-
     }
   }
 }

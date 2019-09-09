@@ -1,21 +1,15 @@
 <template lang='pug'>
-.container
-  .row.justify-content-center.text-center
-    .card.col-4.my-2
-      .card-body
-        form
-          .form-group
-            h4.text-left.text-success Add new user
-            label.col-form-label Name
-            input.form-control(type='text' v-model='newUser.name')
+  .container
+    b-card.col-4.mx-auto.my-5.text-success( header="Add new user" bg-variant="light" align="center" )
+      b-form-group.text-left.text-dark( label="Name" )
+        b-form-input#Name( v-model='newUser.name')
 
-            label.col-form-label Login
-            input.form-control(type='text' v-model='newUser.login')
+      b-form-group.text-left.text-dark( label="Login" )
+        b-form-input#Login(type='text' v-model='newUser.login')
 
-            label.col-form-label Password
-            input.form-control(type='password' v-model='newUser.password')
-
-          img(@click='addNewUser' src='../assets/add.svg' width='40' height='40')
+      b-form-group.text-left.text-dark( label="Password" )
+        b-form-input#Password(type='password' v-model='newUser.password')
+      b-button.mt-5.btn-block(@click='addNewUser' variant="outline-success") Add
 </template>
 
 <script>

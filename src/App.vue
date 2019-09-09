@@ -1,12 +1,10 @@
 <template lang='pug'>
 .div <!--Должен быть обернут в один div / рендерим компоненты -->
-	<template v-if='user!=null'>
-	newUserForm(:addUser='addUser' )
-	listOfUser(:userList='userList'  :deleteUser='deleteUser')
-	</template>
-	<template v-else>
-	index(:updateField='updateField'  )
-	</template>
+	template(v-if="user!=null")
+		newUserForm(:addUser='addUser' )
+		listOfUser(:userList='userList'  :deleteUser='deleteUser')
+	template(v-else="")
+		index(:updateField='updateField'  )
 </template>
 
 
@@ -18,6 +16,7 @@ import listOfUser from './components/ListOfUser.vue'; //Импортируем �
 
 export default {
   name: 'app',
+
   components: { //Добавим локальные компоненты
     newUserForm,
     listOfUser,
