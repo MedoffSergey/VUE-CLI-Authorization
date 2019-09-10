@@ -1,5 +1,6 @@
 <template lang='pug'>
   .container
+    h6.text-center {{token}}
     b-card.col-4.mx-auto.my-5.text-success( header="Add new user" bg-variant="light" align="center" )
       b-form-group.text-left.text-dark( label="Name" )
         b-form-input#Name( v-model='newUser.name')
@@ -14,7 +15,7 @@
 
 <script>
 export default {
-  props: ['addUser'],
+  props: ['addUser','token'],
 
   data(){
     return {
