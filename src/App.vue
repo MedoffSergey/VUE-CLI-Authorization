@@ -34,17 +34,24 @@ export default {
   mounted() { // Функция загрузки данных
 		this.token=localStorage.getItem('jwttoken')
     if(this.token){
-			axios.defaults.headers.common = {Authorization : `bearer ${this.token}`}		// bearer вид аунтификации такой // прикрепляю заголовок авторизации
+			this.setTitleAuth()
 			this.refresh() // Вызываем methods refresh для обновления списка пользователей
 		}
-
   },
+
+
 
   methods: {
     refresh() { //получаем таблицу с пользователями
       axios.get('http://localhost:3000/ajax/users',{ params: {token : this.token }})
         .then(response => (this.userList = response.data))
     },
+
+		setTitleAuth () {
+			if(this.token){
+				axios.defaults.headers.common = {Authorization : `bearer ${this.token}`}		// bearer вид аунтификации такой // прикрепляю заголовок авторизации
+		}
+	},
 
     addUser(name, login, password) { // связываем с помощью axios удаление на сервере
       axios({
@@ -92,7 +99,7 @@ export default {
           this.user = response.data.userLogin // присвоим переменной токен полученного пользователя с сервера
 					this.token = response.data.token	// присвоим переменной токен полученный токен с сервера
 					localStorage.setItem('jwttoken',response.data.token)	//Следующая функция создает элемент с данными в хранилище.
-					if(this.token) axios.defaults.headers.common = {Authorization : `bearer ${this.token}`}		// bearer вид аунтификации такой // прикрепляю заголовок авторизации
+					this.setTitleAuth()
 					this.refresh();
         }) // Получаем json с сервера
 
