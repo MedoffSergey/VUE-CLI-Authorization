@@ -1,19 +1,21 @@
 <template lang='pug'>
 .div <!--Должен быть обернут в один div / рендерим компоненты -->
-	template(v-if="token!=null")
+	.div(v-if="token!=null")
+		navbar(:user='user')
 		newUserForm(:addUser='addUser' )
 		listOfUser(:userList='userList'  :deleteUser='deleteUser' )
 
-	template(v-else)
-		index(:updateField='updateField')
+	index(v-if="token==null" :updateField='updateField')
 </template>
 
 
 <script>
-import axios from 'axios';
+import axios from 'axios';//Импортируем компоненты
 import index from './components/Index.vue';
 import newUserForm from './components/NewUserForm.vue';
-import listOfUser from './components/ListOfUser.vue'; //Импортируем компоненты
+import listOfUser from './components/ListOfUser.vue';
+import navbar from './components/navbar/Navbar.vue';
+
 
 export default {
   name: 'app',
@@ -21,7 +23,8 @@ export default {
   components: { // Добавим локальные компоненты
     newUserForm,
     listOfUser,
-    index
+    index,
+		navbar
   },
 
   data() { // Переменные которые можно использовать в шаблоне
@@ -31,6 +34,7 @@ export default {
 			token: null
     }
   },
+
   mounted() { // Функция загрузки данных
 		this.token=localStorage.getItem('jwttoken')
     if(this.token){
@@ -96,7 +100,7 @@ export default {
           }
         })
         .then(response => {
-          this.user = response.data.userLogin // присвоим переменной токен полученного пользователя с сервера
+          this.user = response.data.userLogin // присвоим переменной логин полученного пользователя с сервера
 					this.token = response.data.token	// присвоим переменной токен полученный токен с сервера
 					localStorage.setItem('jwttoken',response.data.token)	//Следующая функция создает элемент с данными в хранилище.
 					this.setTitleAuth()

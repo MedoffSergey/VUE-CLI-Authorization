@@ -1,16 +1,21 @@
 <template lang='pug'>
   .container
-    h6.text-center {{token}}
-    b-card.col-4.mx-auto.my-5.text-success( header="Add new user" bg-variant="light" align="center" )
-      b-form-group.text-left.text-dark( label="Name" )
-        b-form-input#Name( v-model='newUser.name')
 
-      b-form-group.text-left.text-dark( label="Login" )
-        b-form-input#Login(type='text' v-model='newUser.login')
+    b-button.mt-5( variant="success" size='sm' @click="$bvModal.show('bv-modal-example')") Add user
 
-      b-form-group.text-left.text-dark( label="Password" )
-        b-form-input#Password(type='password' v-model='newUser.password')
-      b-button.mt-5.btn-block(@click='addNewUser' variant="outline-success") Add
+    b-modal#bv-modal-example(ref="my-modal" hide-footer="")
+      template(slot="modal-title")
+        h4 User Authorization
+      .d-block.text-center
+        form(ref="form" )
+            b-form-group.text-left.text-dark( label="Name" )
+              b-form-input#Name( v-model='newUser.name')
+            b-form-group.text-left.text-dark( label="Login" )
+              b-form-input#Login(type='text' v-model='newUser.login')
+            b-form-group.text-left.text-dark( label="Password" )
+              b-form-input#Password(type='password' v-model='newUser.password')
+
+            b-button.mt-5.btn-block(@click='addNewUser' variant="outline-success") Add
 </template>
 
 <script>

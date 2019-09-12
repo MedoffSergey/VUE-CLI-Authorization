@@ -1,6 +1,6 @@
 <template lang='pug'>
 .container
-  
+
   table.table.mt-3
     thead.thead-light
       tr
