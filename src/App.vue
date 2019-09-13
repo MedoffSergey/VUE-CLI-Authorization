@@ -1,20 +1,23 @@
 <template lang='pug'>
 .div <!--Должен быть обернут в один div / рендерим компоненты -->
 	.div(v-if="token!=null")
-		navbar(:user='user')
+		navbar(:user='user'  :giveUser='giveUser')
+		fileTable
 		newUserForm(:addUser='addUser' )
 		listOfUser(:userList='userList'  :deleteUser='deleteUser' )
 
-	index(v-if="token==null" :updateField='updateField')
+
+	index(v-if="token==null"  :authUser='authUser'  )
 </template>
 
 
 <script>
 import axios from 'axios';//Импортируем компоненты
 import index from './components/Index.vue';
+import navbar from './components/navbar/Navbar.vue';
 import newUserForm from './components/NewUserForm.vue';
 import listOfUser from './components/ListOfUser.vue';
-import navbar from './components/navbar/Navbar.vue';
+import fileTable from './components/FileTable.vue';
 
 
 export default {
@@ -24,7 +27,8 @@ export default {
     newUserForm,
     listOfUser,
     index,
-		navbar
+		navbar,
+		fileTable
   },
 
   data() { // Переменные которые можно использовать в шаблоне
@@ -40,15 +44,20 @@ export default {
     if(this.token){
 			this.setTitleAuth()
 			this.refresh() // Вызываем methods refresh для обновления списка пользователей
+			this.giveUser()
 		}
   },
 
-
-
   methods: {
     refresh() { //получаем таблицу с пользователями
-      axios.get('http://localhost:3000/ajax/users',{ params: {token : this.token }})
+      axios.get('http://localhost:3000/ajax/users')
         .then(response => (this.userList = response.data))
+    },
+
+		giveUser() {
+      axios.get('http://localhost:3000/ajax/users/giveUser')
+        .then(response => (this.user = response.data.currentUser))
+
     },
 
 		setTitleAuth () {
@@ -65,7 +74,7 @@ export default {
           name,
           login,
           password,
-					token : this.token
+
         }
 
       }).then(() => { // после удачного выполнения метода выполнится обновление таблицы
@@ -78,10 +87,8 @@ export default {
           method: 'post',
           url: 'http://localhost:3000/ajax/users/delete',
           data: { // у GET должен быть params а не data
-            id,
-						token : this.token
-
-          },
+            id
+				 },
 
         })
         .then(() => {
@@ -90,7 +97,7 @@ export default {
         })
     },
 
-    updateField(login, password) {
+    authUser(login, password) {
       axios({
           method: 'post',
           url: 'http://localhost:3000/ajax/users/dataChecking',
@@ -100,7 +107,7 @@ export default {
           }
         })
         .then(response => {
-          this.user = response.data.userLogin // присвоим переменной логин полученного пользователя с сервера
+          this.user =  response.data  // присвоим переменной полученного пользователя с сервера
 					this.token = response.data.token	// присвоим переменной токен полученный токен с сервера
 					localStorage.setItem('jwttoken',response.data.token)	//Следующая функция создает элемент с данными в хранилище.
 					this.setTitleAuth()

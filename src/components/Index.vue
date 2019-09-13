@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  props: ['updateField'],
+  props: ['authUser'],
 
   data() {
     return {
@@ -26,7 +26,7 @@ export default {
 
   methods: {
     userVerification() {
-      this.updateField(this.User.login, this.User.password)
+      this.authUser(this.User.login, this.User.password)
 
       this.User.login = "";
       this.User.password = "";

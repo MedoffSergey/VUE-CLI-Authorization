@@ -6,18 +6,18 @@
       b-navbar-toggle(target="nav-collapse")
       b-collapse#nav-collapse(is-nav="")
         b-navbar-nav.h5
-          b-nav-item(href="#") Таблица
+          b-nav-item(href="#" ) Таблица
           b-nav-item(href="#" ) Файлы
 
         // Right aligned nav items
         b-navbar-nav.ml-auto
-          //- h5 {{this.user.login}}
+
+          h5.text-light(v-if = "user") {{user.login}}
 </template>
 
 
 <script>
   export default {
-    props: ['user'],  // массив с App.vue
-
-    }
+    props: ['user'],  // обьект с App.vue
+}
 </script>
