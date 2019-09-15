@@ -11,13 +11,28 @@
 
         // Right aligned nav items
         b-navbar-nav.ml-auto
-
-          h5.text-light(v-if = "user") {{user.login}}
+        h5.text-light.m-2(v-if = "user") {{user.login}}
+        div
+          b-button-group
+            b-dropdown(right="" text="")(v-if = "user")
+              b-dropdown-item Login: {{user.login}}
+              b-dropdown-item User ID: {{user.id}}
+              b-dropdown-item {{user.token}}
+              b-dropdown-divider
+              b-dropdown-item(@click='exit') Выход
 </template>
 
 
 <script>
   export default {
-    props: ['user'],  // обьект с App.vue
+    props: ['user','exitUser'],  // обьект с App.vue
+
+  methods: {
+    exit() {
+        this.exitUser()
+      }
+    }
+
 }
+
 </script>

@@ -1,11 +1,11 @@
 <template lang='pug'>
 .div <!--Должен быть обернут в один div / рендерим компоненты -->
 	.div(v-if="token!=null")
-		navbar(:user='user'  :giveUser='giveUser')
-		fileTable
-		newUserForm(:addUser='addUser' )
-		listOfUser(:userList='userList'  :deleteUser='deleteUser' )
+		navbar(:user='user'  :giveUser='giveUser'  :exitUser='exitUser')
 
+			newUserForm(:addUser='addUser' )
+			listOfUser(:userList='userList'  :deleteUser='deleteUser' )
+		fileTable
 
 	index(v-if="token==null"  :authUser='authUser'  )
 </template>
@@ -60,12 +60,18 @@ export default {
 
     },
 
-		setTitleAuth () {
+		setTitleAuth() {
 			if(this.token){
 				axios.defaults.headers.common = {Authorization : `bearer ${this.token}`}		// bearer вид аунтификации такой // прикрепляю заголовок авторизации
 		}
 	},
 
+	exitUser() {
+		if(this.token){
+			axios.defaults.headers.common = {Authorization : ``}		// bearer вид аунтификации такой // очищаю поле авторизации
+
+	}
+},
     addUser(name, login, password) { // связываем с помощью axios удаление на сервере
       axios({
         method: 'post', //метод запроса POST
@@ -108,6 +114,7 @@ export default {
         })
         .then(response => {
           this.user =  response.data  // присвоим переменной полученного пользователя с сервера
+					console.log(this.user)
 					this.token = response.data.token	// присвоим переменной токен полученный токен с сервера
 					localStorage.setItem('jwttoken',response.data.token)	//Следующая функция создает элемент с данными в хранилище.
 					this.setTitleAuth()
