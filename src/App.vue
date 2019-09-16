@@ -1,41 +1,55 @@
 <template lang='pug'>
 .div <!--Должен быть обернут в один div / рендерим компоненты -->
 	.div(v-if="token!=null")
-		navbar(:user='user'  :giveUser='giveUser'  :exitUser='exitUser')
+		.div(v-if="page=='home'")
+			navbar(:user='user'  :giveUser='giveUser'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles')
+			home
 
+		.div(v-if="page=='showFiles'")
+			navbar(:user='user'  :giveUser='giveUser'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles')
+			newFileForm(:addFiles='addFiles')
+			fileTable(:filesList='filesList'  :deleteFile='deleteFile')
+
+		.div(v-if="page=='showUser'")
+			navbar(:user='user'  :giveUser='giveUser'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles')
 			newUserForm(:addUser='addUser' )
 			listOfUser(:userList='userList'  :deleteUser='deleteUser' )
-		fileTable
 
-	index(v-if="token==null"  :authUser='authUser'  )
+	index(v-else  :authUser='authUser'  )
 </template>
 
 
 <script>
 import axios from 'axios';//Импортируем компоненты
+
 import index from './components/Index.vue';
 import navbar from './components/navbar/Navbar.vue';
 import newUserForm from './components/NewUserForm.vue';
 import listOfUser from './components/ListOfUser.vue';
 import fileTable from './components/FileTable.vue';
-
+import home from './components/Home.vue';
+import newFileForm from './components/NewFileForm.vue';
 
 export default {
   name: 'app',
 
   components: { // Добавим локальные компоненты
+		navbar,
+		home,
     newUserForm,
     listOfUser,
     index,
-		navbar,
-		fileTable
+		fileTable,
+		newFileForm
   },
 
   data() { // Переменные которые можно использовать в шаблоне
     return {
       userList: [],
       user: null,
-			token: null
+			token: null,
+			filesList: [],
+			page: "home"	//переключатель отображаеммых данных
     }
   },
 
@@ -43,20 +57,27 @@ export default {
 		this.token=localStorage.getItem('jwttoken')
     if(this.token){
 			this.setTitleAuth()
-			this.refresh() // Вызываем methods refresh для обновления списка пользователей
 			this.giveUser()
+			this.refreshUserList() 	// Вызываем methods refreshUserList для обновления списка пользователей
+			this.refreshFileList()	// Вызываем methods refreshFileList для обновления списка файлов
 		}
+
   },
 
   methods: {
-    refresh() { //получаем таблицу с пользователями
-      axios.get('http://localhost:3000/ajax/users')
-        .then(response => (this.userList = response.data))
+		refreshUserList() { //получаем таблицу с пользователями
+			axios.get('http://localhost:3000/ajax/users')
+				.then(response => (this.userList = response.data))
     },
 
+		refreshFileList(){
+			axios.get('http://localhost:3000/ajax/users/fileTable')
+			.then(response => (this.filesList = response.data.files))
+		},
+
 		giveUser() {
-      axios.get('http://localhost:3000/ajax/users/giveUser')
-        .then(response => (this.user = response.data.currentUser))
+			axios.get('http://localhost:3000/ajax/users/giveUser')
+				.then(response => (this.user = response.data.currentUser))
 
     },
 
@@ -66,16 +87,38 @@ export default {
 		}
 	},
 
-	exitUser() {
-		if(this.token){
-			axios.defaults.headers.common = {Authorization : ``}		// bearer вид аунтификации такой // очищаю поле авторизации
+		exitUser() {
+				this.token = null
+				axios.defaults.headers.common = null		// bearer вид аунтификации такой // очищаю поле авторизации
+				localStorage.removeItem('jwttoken')
 
-	}
 },
+
+authUser(login, password) {
+	axios({
+			method: 'post',
+			url: 'http://localhost:3000/ajax/users/dataChecking',
+			data: { // у GET должен быть params а не data
+				login,
+				password
+			}
+		})
+		.then(response => {
+			this.user =  response.data  // присвоим переменной полученного пользователя с сервера
+			this.token = response.data.token	// присвоим переменной токен полученный токен с сервера
+			localStorage.setItem('jwttoken',response.data.token)	//Следующая функция создает элемент с данными в хранилище.
+			this.setTitleAuth()
+			this.refreshUserList();
+			this.refreshFileList()
+
+		}) // Получаем json с сервера
+
+},
+
     addUser(name, login, password) { // связываем с помощью axios удаление на сервере
       axios({
         method: 'post', //метод запроса POST
-        url: 'http://localhost:3000/ajax/users/add',
+        url: 'http://localhost:3000/ajax/users/addUser',
         data: { // у Post должен быть data а не params
           name,
           login,
@@ -84,44 +127,64 @@ export default {
         }
 
       }).then(() => { // после удачного выполнения метода выполнится обновление таблицы
-        this.refresh()
+        this.refreshUserList()
       })
     },
 
     deleteUser(id) {
       axios ({
           method: 'post',
-          url: 'http://localhost:3000/ajax/users/delete',
+          url: 'http://localhost:3000/ajax/users/deleteUser',
           data: { // у GET должен быть params а не data
             id
-				 },
-
+				 	}
         })
         .then(() => {
-          this.refresh(); // после удачного выполнения метода выполнится обновление таблицы
+          this.refreshUserList(); // после удачного выполнения метода выполнится обновление таблицы
 
         })
     },
 
-    authUser(login, password) {
-      axios({
-          method: 'post',
-          url: 'http://localhost:3000/ajax/users/dataChecking',
-          data: { // у GET должен быть params а не data
-            login,
-            password
-          }
-        })
-        .then(response => {
-          this.user =  response.data  // присвоим переменной полученного пользователя с сервера
-					console.log(this.user)
-					this.token = response.data.token	// присвоим переменной токен полученный токен с сервера
-					localStorage.setItem('jwttoken',response.data.token)	//Следующая функция создает элемент с данными в хранилище.
-					this.setTitleAuth()
-					this.refresh();
-        }) // Получаем json с сервера
+		addFiles(domain,ip){
+			axios ({
+					method: 'post',
+					url: 'http://localhost:3000/ajax/users/addFiles',
+					data: { // у GET должен быть params а не data
+						domain,
+						ip
+					}
+				})
+				.then(() => {
+					this.refreshFileList(); // после удачного выполнения метода выполнится обновление таблицы
 
-    }
+				})
+		},
+
+
+		deleteFile(files){
+			axios({
+				method: 'post',
+				url: 'http://localhost:3000/ajax/users/deleteFiles',
+				data: { // у GET должен быть params а не data
+					files
+				}
+			})
+			.then(response => {
+				this.refreshFileList()
+			})
+		},
+
+//_______ОТОБРАЖАЕМ КОМПОНЕНТЫ_________
+			showFiles() {
+				this.page = 'showFiles'
+				console.log('page',this.page)
+			},
+
+			showTableUser() {
+				this.page = 'showUser'
+				console.log('page',this.page)
+			}
+//_______ОТОБРАЖАЕМ КОМПОНЕНТЫ_________
   }
 }
 </script>
