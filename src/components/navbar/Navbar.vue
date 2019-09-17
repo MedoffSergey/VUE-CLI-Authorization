@@ -11,6 +11,10 @@
 
         // Right aligned nav items
         b-navbar-nav.ml-auto
+          b-nav-form
+            b-form-input.mr-sm-2(size="sm" placeholder="Поиск" v-model='searchInput')
+            b-button.mr-5.my-2.my-sm-0(size="sm" @click='searchBtn') Искать
+
         h5.text-light.m-2(v-if = "user") {{user.login}}
         div
           b-button-group()
@@ -25,7 +29,18 @@
 
 <script>
 export default {
-  props: ['user', 'exitUser', 'showTableUser', 'showFiles'], // обьект с App.vue
+  props: ['user', 'exitUser', 'showTableUser', 'showFiles','search'], // обьект с App.vue
+  data() {
+    return {
+      searchInput: ''
 
+    }
+  },
+  methods: {
+    searchBtn(){
+      this.search(this.searchInput)
+      this.searchInput='';
+    }
+  }
 }
 </script>

@@ -1,17 +1,17 @@
 <template lang='pug'>
-.div <!--Должен быть обернут в один div / рендерим компоненты -->
-	.div(v-if="token!=null")
-		.div(v-if="page=='home'")
-			navbar(:user='user'  :giveUser='giveUser'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles')
+div <!--Должен быть обернут в один div / рендерим компоненты -->
+	template(v-if="token!=null")
+		template(v-if="page=='home'")
+			navbar(:user='user'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles'  :search='search')
 			home
 
-		.div(v-if="page=='showFiles'")
-			navbar(:user='user'  :giveUser='giveUser'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles')
-			newFileForm(:addFiles='addFiles')
-			fileTable(:filesList='filesList'  :deleteFile='deleteFile')
+		template(v-if="page=='showFiles'")
+			navbar(:user='user'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles'  :search='search')
+			newFileForm(:addFiles='addFiles'  )
+			fileTable(:filesList='filesList'  :deleteFile='deleteFile'  :ip='ip')
 
-		.div(v-if="page=='showUser'")
-			navbar(:user='user'  :giveUser='giveUser'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles')
+		template(v-if="page=='showUser'")
+			navbar(:user='user'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles'  :search='search')
 			newUserForm(:addUser='addUser' )
 			listOfUser(:userList='userList'  :deleteUser='deleteUser' )
 
@@ -49,7 +49,8 @@ export default {
       user: null,
 			token: null,
 			filesList: [],
-			page: "home"	//переключатель отображаеммых данных
+			page: "home",	//переключатель отображаеммых данных
+			ip: []
     }
   },
 
@@ -60,6 +61,7 @@ export default {
 			this.giveUser()
 			this.refreshUserList() 	// Вызываем methods refreshUserList для обновления списка пользователей
 			this.refreshFileList()	// Вызываем methods refreshFileList для обновления списка файлов
+		
 		}
 
   },
@@ -72,7 +74,9 @@ export default {
 
 		refreshFileList(){
 			axios.get('http://localhost:3000/ajax/users/fileTable')
-			.then(response => (this.filesList = response.data.files))
+			.then(response => {this.filesList = response.data.files
+												this.ip = response.data.ip}
+			)
 		},
 
 		giveUser() {
@@ -156,7 +160,6 @@ authUser(login, password) {
 				})
 				.then(() => {
 					this.refreshFileList(); // после удачного выполнения метода выполнится обновление таблицы
-
 				})
 		},
 
@@ -169,7 +172,20 @@ authUser(login, password) {
 					files
 				}
 			})
-			.then(response => {
+			.then(() => {
+				this.refreshFileList()
+			})
+		},
+
+		search(searchInput){
+			axios({
+				method: 'get',
+				url: 'http://localhost:3000/ajax/users/search',
+				params: { // у GET должен быть params а не data
+					searchInput
+				}
+			})
+			.then(() => {
 				this.refreshFileList()
 			})
 		},

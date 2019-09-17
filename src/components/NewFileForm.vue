@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: "modal_files",
+  name: "NewFileForm",
   props: ['addFiles'],
 
   data() {
