@@ -11,14 +11,12 @@
 
         // Right aligned nav items
         b-navbar-nav.ml-auto
-          b-nav-form
-            b-form-input.mr-sm-2(size="sm" placeholder="Поиск" v-model='searchInput')
-            b-button.mr-5.my-2.my-sm-0(size="sm" @click='searchBtn') Искать
+
 
         h5.text-light.m-2(v-if = "user") {{user.login}}
         div
           b-button-group()
-            b-dropdown(size='sm' right="" text="")(v-if = "user")
+            b-dropdown(variant="success" size='sm' right="" text="")(v-if = "user")
               b-dropdown-item Login: {{user.login}}
               b-dropdown-item User ID: {{user.id}}
               b-dropdown-item {{user.token}}
@@ -33,13 +31,6 @@ export default {
   data() {
     return {
       searchInput: ''
-
-    }
-  },
-  methods: {
-    searchBtn(){
-      this.search(this.searchInput)
-      this.searchInput='';
     }
   }
 }

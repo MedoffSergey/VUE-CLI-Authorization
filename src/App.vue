@@ -1,17 +1,18 @@
 <template lang='pug'>
 div <!--Должен быть обернут в один div / рендерим компоненты -->
-	template(v-if="token!=null")
-		template(v-if="page=='home'")
-			navbar(:user='user'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles'  :search='search')
+	div(v-if="token!=null")
+		navbar(:user='user'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles'  :search='search')
+
+		div(v-if="page=='home'")
 			home
 
-		template(v-if="page=='showFiles'")
-			navbar(:user='user'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles'  :search='search')
+		div(v-if="page=='showFiles'")
+			componentsFilter(:page='page')
 			newFileForm(:addFiles='addFiles'  )
-			fileTable(:filesList='filesList'  :deleteFile='deleteFile'  :ip='ip')
+			fileTable(:filesList='filesList'  :deleteFile='deleteFile' )
 
-		template(v-if="page=='showUser'")
-			navbar(:user='user'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles'  :search='search')
+		div(v-if="page=='showUser'")
+			componentsFilter(:page='page')
 			newUserForm(:addUser='addUser' )
 			listOfUser(:userList='userList'  :deleteUser='deleteUser' )
 
@@ -29,6 +30,7 @@ import listOfUser from './components/ListOfUser.vue';
 import fileTable from './components/FileTable.vue';
 import home from './components/Home.vue';
 import newFileForm from './components/NewFileForm.vue';
+import componentsFilter from './components/Filter.vue';
 
 export default {
   name: 'app',
@@ -40,7 +42,8 @@ export default {
     listOfUser,
     index,
 		fileTable,
-		newFileForm
+		newFileForm,
+		componentsFilter
   },
 
   data() { // Переменные которые можно использовать в шаблоне
@@ -50,7 +53,6 @@ export default {
 			token: null,
 			filesList: [],
 			page: "home",	//переключатель отображаеммых данных
-			ip: []
     }
   },
 
@@ -61,7 +63,7 @@ export default {
 			this.giveUser()
 			this.refreshUserList() 	// Вызываем methods refreshUserList для обновления списка пользователей
 			this.refreshFileList()	// Вызываем methods refreshFileList для обновления списка файлов
-		
+
 		}
 
   },
@@ -74,8 +76,8 @@ export default {
 
 		refreshFileList(){
 			axios.get('http://localhost:3000/ajax/users/fileTable')
-			.then(response => {this.filesList = response.data.files
-												this.ip = response.data.ip}
+			.then(response => {this.filesList = response.data.domenIpObj}
+
 			)
 		},
 
@@ -141,7 +143,7 @@ authUser(login, password) {
           url: 'http://localhost:3000/ajax/users/deleteUser',
           data: { // у GET должен быть params а не data
             id
-				 	}
+					}
         })
         .then(() => {
           this.refreshUserList(); // после удачного выполнения метода выполнится обновление таблицы
@@ -177,18 +179,7 @@ authUser(login, password) {
 			})
 		},
 
-		search(searchInput){
-			axios({
-				method: 'get',
-				url: 'http://localhost:3000/ajax/users/search',
-				params: { // у GET должен быть params а не data
-					searchInput
-				}
-			})
-			.then(() => {
-				this.refreshFileList()
-			})
-		},
+
 
 //_______ОТОБРАЖАЕМ КОМПОНЕНТЫ_________
 			showFiles() {
