@@ -1,7 +1,6 @@
 <template lang='pug'>
 .container
-
-  table.table.mt-3
+  table.table.table-bordered.mt-3.text-center
     thead.thead-light
       tr
         th(scope='col') Id
@@ -17,11 +16,11 @@
         th(scope='col') Remove
 
     tr(scope='row' v-for='(user, index) in sortTableUp' :key='index')
-      td {{ user.id }}
-      td {{ user.name }}
-      td {{ user.login}}
-      td {{ user.password}}
-      td
+      td.bg-light {{ user.id }}
+      td.bg-light {{ user.name }}
+      td.bg-light {{ user.login}}
+      td.bg-light {{ user.password}}
+      td.bg-light
         a(@click='deleteUser(user.id)' )
           img(src='../assets/remove.svg' width='32' height='32')
 </template>

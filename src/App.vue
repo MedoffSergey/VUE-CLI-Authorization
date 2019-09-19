@@ -97,8 +97,7 @@ export default {
 				this.token = null
 				axios.defaults.headers.common = null		// bearer вид аунтификации такой // очищаю поле авторизации
 				localStorage.removeItem('jwttoken')
-
-},
+			},
 
 authUser(login, password) {
 	axios({
@@ -174,7 +173,7 @@ authUser(login, password) {
 					files
 				}
 			})
-			.then(() => {
+			.then(response => {
 				this.refreshFileList()
 			})
 		},
@@ -187,9 +186,7 @@ authUser(login, password) {
 					filterInput
 				}
 			})
-			.then(() => {
-				this.refreshFileList()
-			})
+			.then(response => (this.userList = response.data.newSearchList))
 	},
 
 	tableFilesSearch(filterInput){
@@ -200,9 +197,7 @@ authUser(login, password) {
 				filterInput
 			}
 		})
-		.then(() => {
-			this.refreshFileList()
-		})
+		.then(response => (this.filesList = response.data.newSearchList))
 },
 
 
