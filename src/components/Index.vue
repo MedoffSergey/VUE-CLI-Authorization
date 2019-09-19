@@ -1,13 +1,18 @@
 <template lang='pug'>
-	.container
+	.container.text-center
 
-		b-card.col-4.mx-auto.mt-5.text-success( header="АВТОРИЗАЦИЯ"  bg-variant="light" align="center" )
+		img(src="../assets/logo1.svg" width = "200" height="200")
+		b-card.w-25.mx-auto.text-light( header="АВТОРИЗАЦИЯ"  header-bg-variant='secondary' body-bg-variant='light' align="center" )
 
 			b-form-group.text-left.text-dark( label="Логин" label-for="login-input" )
 				b-form-input#login-input( v-model.trim='User.login')
 			b-form-group.text-left.text-dark( label="Пароль" label-for="password-input"  )
 				b-form-input#password-input(type='password' v-model.trim='User.password')
+
 			b-button.mt-5.btn-block(type="submit" variant="outline-success" @click="userVerification(User.login,User.password)") Войти
+
+
+
 </template>
 
 <script>

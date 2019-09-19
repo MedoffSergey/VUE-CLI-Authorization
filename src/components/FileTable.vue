@@ -32,8 +32,7 @@ export default {
     sortTableUp: function() {   //Функция сортировки
       let col = this.sortRes     //переменная хранящая название колонки
       let dir = this.sortDir  //переменная хранящая в себе значение up & down
-      console.log(col)
-      console.log(dir)
+
       return this.filesList.slice().sort(function(a, b) {
         let modifier = -1;
         if(dir=='up') modifier = 1

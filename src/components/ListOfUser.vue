@@ -42,7 +42,7 @@
     computed:{    // вычисляемое свойство
       sortTableUp: function() {   //Функция сортировки
         let col = this.sortResult     //переменная хранящая название колонки
-        let dir = this.sortDirection  //переменная хранящая в себе значение up & down     
+        let dir = this.sortDirection  //переменная хранящая в себе значение up & down
 
 
         return this.userList.slice().sort(function(a, b) {

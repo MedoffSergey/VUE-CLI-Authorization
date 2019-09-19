@@ -1,18 +1,18 @@
 <template lang='pug'>
 div <!--Должен быть обернут в один div / рендерим компоненты -->
 	div(v-if="token!=null")
-		navbar(:user='user'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles'  :search='search')
+		navbar(:user='user'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles'  )
 
 		div(v-if="page=='home'")
 			home
 
 		div(v-if="page=='showFiles'")
-			componentsFilter(:page='page')
+			componentsFilter(:page='page'  :tableFilesSearch='tableFilesSearch'  )
 			newFileForm(:addFiles='addFiles'  )
 			fileTable(:filesList='filesList'  :deleteFile='deleteFile' )
 
 		div(v-if="page=='showUser'")
-			componentsFilter(:page='page')
+			componentsFilter(:page='page'  :tableUserSearch='tableUserSearch')
 			newUserForm(:addUser='addUser' )
 			listOfUser(:userList='userList'  :deleteUser='deleteUser' )
 
@@ -178,6 +178,32 @@ authUser(login, password) {
 				this.refreshFileList()
 			})
 		},
+
+		tableUserSearch(filterInput){
+			axios({
+				method: 'post',
+				url: 'http://localhost:3000/ajax/users/tableUserSearch',
+				data: { // у GET должен быть params а не data
+					filterInput
+				}
+			})
+			.then(() => {
+				this.refreshFileList()
+			})
+	},
+
+	tableFilesSearch(filterInput){
+		axios({
+			method: 'post',
+			url: 'http://localhost:3000/ajax/users/tableFilesSearch',
+			data: { // у GET должен быть params а не data
+				filterInput
+			}
+		})
+		.then(() => {
+			this.refreshFileList()
+		})
+},
 
 
 

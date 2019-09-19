@@ -2,18 +2,19 @@
 div.text-center
 	b-button( variant="success" size='sm' @click="$bvModal.show('bv-modal-example1')") Add Files
 
-	b-modal#bv-modal-example1(ref="my-modal" hide-footer="")
+	b-modal#bv-modal-example1(ref="my-modal" hide-footer="" header-bg-variant='secondary' body-bg-variant='light')
 		template(slot="modal-title")
-			h4 Package manager
-		.d-block.text-center
+			h4.text-light Package manager
+		.d-block.text-right
 			form(ref="form" )
-				b-form-group.text-left.text-dark( label="Domain" )
+				b-form-group.text-left( label="Domain" )
 					b-form-input#Domain( v-model.trim='newFile.domain')
-				b-form-group.text-left.text-dark( label="IP" )
+				b-form-group.text-left( label="IP" )
 					b-form-input#IP(type='text' v-model.trim='newFile.ip')
 
 
-				b-button.mt-5.btn-block(@click='addNewFiles' variant="outline-success") Add
+				b-button.mx-2(@click='addNewFiles'  size="sm" variant="outline-success") Add
+				b-button(variant="outline-danger" size="sm" @click="$bvModal.hide('bv-modal-example1')") Close Me
 </template>
 
 <script>

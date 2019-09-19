@@ -2,10 +2,10 @@
   .container.text-center
     b-button( variant="success" size='sm' @click="$bvModal.show('bv-modal-example')") Add user
 
-    b-modal#bv-modal-example(ref="my-modal" hide-footer="")
+    b-modal#bv-modal-example(ref="my-modal" header-bg-variant='secondary' body-bg-variant='light' hide-footer="")
       template(slot="modal-title")
-        h4 User Authorization
-      .d-block.text-center
+        h4.text-light.float-right User Authorization
+      .d-block.text-right
         form(ref="form" )
             b-form-group.text-left.text-dark( label="Name" )
               b-form-input#Name( v-model.trim='newUser.name')
@@ -14,7 +14,8 @@
             b-form-group.text-left.text-dark( label="Password" )
               b-form-input#Password(type='password' v-model.trim='newUser.password')
 
-            b-button.mt-5.btn-block(@click='addNewUser' variant="outline-success") Add
+            b-button.mx-2(@click='addNewUser' size="sm" variant="outline-success") Add
+            b-button(variant="outline-danger" size="sm" @click="$bvModal.hide('bv-modal-example')") Close Me
 </template>
 
 <script>

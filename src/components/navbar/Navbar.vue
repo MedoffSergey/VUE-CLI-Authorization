@@ -1,6 +1,6 @@
 <template lang='pug'>
   div
-    b-navbar.navbar.navbar-expand-lg.navbar-dark.bg-primary.sticky-top(toggleable="lg"  variant="primary")
+    b-navbar.navbar.navbar-expand-lg.navbar-white.bg-light.sticky-top(toggleable="lg"  variant="primary")
       b-navbar-brand(href="/")
         img(src="../../assets/logo1.svg" width = "140" height="40")
       b-navbar-toggle(target="nav-collapse")
@@ -13,7 +13,7 @@
         b-navbar-nav.ml-auto
 
 
-        h5.text-light.m-2(v-if = "user") {{user.login}}
+        h5.text-dark.m-2(v-if = "user") {{user.login}}
         div
           b-button-group()
             b-dropdown(variant="success" size='sm' right="" text="")(v-if = "user")
@@ -27,11 +27,7 @@
 
 <script>
 export default {
-  props: ['user', 'exitUser', 'showTableUser', 'showFiles','search'], // обьект с App.vue
-  data() {
-    return {
-      searchInput: ''
-    }
-  }
+  props: ['user', 'exitUser', 'showTableUser', 'showFiles'], // обьект с App.vue
+
 }
 </script>
