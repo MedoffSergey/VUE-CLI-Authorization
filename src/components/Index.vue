@@ -1,9 +1,12 @@
 <template lang='pug'>
 	.container.text-center
 
-		b-card.mt-5.w-25.mx-auto.text-light( header="АВТОРИЗАЦИЯ"  header-bg-variant='success' body-bg-variant='light' )
-			//- img.card-img(src="../assets/lock.svg" width='30' height='30' )
-			img.card-img-top(src="../assets/lock.svg" width='30' height='30')
+		b-card.mt-5.w-25.mx-auto.text-light(header="АВТОРИЗАЦИЯ"  header-bg-variant='success' body-bg-variant='light' )
+			template(v-slot:header)
+				div
+					img.float-left(src="../assets/lock.svg" width='25' height='25' style="display:inline-block" )
+					| АВТОРИЗАЦИЯ
+
 			b-form-group.text-left.text-dark( label="Логин" label-for="login-input" )
 				b-form-input#login-input( v-model.trim='User.login')
 			b-form-group.text-left.text-dark( label="Пароль" label-for="password-input"  )

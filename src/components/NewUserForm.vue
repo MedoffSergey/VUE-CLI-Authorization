@@ -1,5 +1,5 @@
 <template lang='pug'>
-  .container.text-center
+  .div.text-center
     b-button( variant="success" size='sm' @click="$bvModal.show('bv-modal-example')") Add user
 
     b-modal#bv-modal-example(ref="my-modal" size="sm" header-bg-variant='primary' body-bg-variant='light' hide-footer="")

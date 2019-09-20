@@ -3,7 +3,7 @@
   table.table.table-bordered.mt-3.text-center
     thead.thead-light
       tr
-        th(scope='col') Id
+        th(scope='col' width='10%') Id
           img.ml-2(@click = "sortResult='id'; sortDirection='up' " src='../assets/sort-up.svg' width = "15" height="15")
           img(@click = "sortResult='id'; sortDirection='down' " src='../assets/sort-down.svg' width = "15" height="15")
         th(scope='col') Name
@@ -13,7 +13,7 @@
           img.ml-2(@click = "sortResult='login'; sortDirection='up'"  src='../assets/sort-up.svg' width = "15" height="15")
           img(@click = "sortResult='login'; sortDirection='down'" src='../assets/sort-down.svg' width = "15" height="15")
         th(scope='col') Password
-        th(scope='col') Remove
+        th(scope='col' width='10%') Remove
 
     tr(scope='row' v-for='(user, index) in sortTableUp' :key='index')
       td.bg-light {{ user.id }}

@@ -6,8 +6,8 @@
 				th.text-center(scope='col') Domain name
 					img.ml-2(@click = "sortRes='domain'; sortDir='up' " src='../assets/sort-up.svg' width = "15" height="15")
 					img(@click = "sortRes='domain'; sortDir='down' " src='../assets/sort-down.svg' width = "15" height="15")
-				th.text-center(scope='col') IP
-				th.text-center(scope='col') Remove
+				th.text-center(width='15%' scope='col') IP
+				th.text-center(scope='col'  width='10%') Remove
 				tr.text-center(scope='row' v-for='(files,index) in sortTableUp' :key="index")
 					td.bg-light {{ files.domain.toLowerCase() }}
 					td.bg-light {{ files.ip}}

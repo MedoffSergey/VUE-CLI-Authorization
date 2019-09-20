@@ -7,13 +7,16 @@ div <!--Должен быть обернут в один div / рендерим 
 			home
 
 		div(v-if="page=='showFiles'")
-			componentsFilter(:page='page'  :tableFilesSearch='tableFilesSearch'  )
-			newFileForm(:addFiles='addFiles'  )
+			div.mt-3.d-flex.justify-content-center
+				newFileForm.mx-5(:addFiles='addFiles'  )
+				componentsFilter.ml-5(:page='page'  :tableFilesSearch='tableFilesSearch'  )
 			fileTable(:filesList='filesList'  :deleteFile='deleteFile' )
 
 		div(v-if="page=='showUser'")
-			componentsFilter(:page='page'  :tableUserSearch='tableUserSearch')
-			newUserForm(:addUser='addUser' )
+			div.mt-3.d-flex.justify-content-center
+				newUserForm.mx-5(:addUser='addUser' )
+				componentsFilter.ml-5(:page='page'  :tableUserSearch='tableUserSearch')
+
 			listOfUser(:userList='userList'  :deleteUser='deleteUser' )
 
 	index(v-else  :authUser='authUser'  )
@@ -173,7 +176,7 @@ authUser(login, password) {
 					files
 				}
 			})
-			.then(response => {
+			.then(() => {
 				this.refreshFileList()
 			})
 		},
