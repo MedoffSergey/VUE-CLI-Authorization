@@ -13,6 +13,9 @@
               b-form-input#Login(type='text' v-model.trim='newUser.login')
             b-form-group.text-left.text-dark( label="Password" )
               b-form-input#Password(type='password' v-model.trim='newUser.password')
+            div.float-left
+              b-form-checkbox(v-model="newUser.status" name="check-button" switch="")
+                | Admin
 
             b-button.mx-2(@click="addNewUser(); $bvModal.hide('bv-modal-example')" size="sm"  variant="outline-success") Add
 </template>
@@ -26,15 +29,16 @@ export default {
       newUser: {
         name: '',
         login: '',
-        password: ''
+        password: '',
+        status: ''
       }
     }
   },
 
   methods: {
     addNewUser() {
-      this.addUser(this.newUser.name, this.newUser.login, this.newUser.password)
-
+      this.addUser(this.newUser.status,this.newUser.name, this.newUser.login, this.newUser.password)
+        this.newUser.status ="",
         this.newUser.name="";
         this.newUser.login="";
         this.newUser.password="";

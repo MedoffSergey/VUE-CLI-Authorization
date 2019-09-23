@@ -1,23 +1,21 @@
 <template lang='pug'>
 div <!--Должен быть обернут в один div / рендерим компоненты -->
-	div(v-if="token!=null")
+	div(v-if="token!=null" )
 		navbar(:user='user'  :exitUser='exitUser'  :showTableUser='showTableUser'  :showFiles='showFiles'  )
-
 		div(v-if="page=='home'")
 			home
 
-		div(v-if="page=='showFiles'")
+		div(v-if="page=='showFiles'" )
 			div.mt-3.d-flex.justify-content-center
 				newFileForm.mx-5(:addFiles='addFiles'  )
 				componentsFilter.ml-5(:page='page'  :tableFilesSearch='tableFilesSearch'  )
-			fileTable(:filesList='filesList'  :deleteFile='deleteFile' )
+			fileTable(:filesList='filesList'  :deleteFile='deleteFile'  :users='user')
 
-		div(v-if="page=='showUser'")
+		div(v-if="page=='showUser'" )
 			div.mt-3.d-flex.justify-content-center
 				newUserForm.mx-5(:addUser='addUser' )
 				componentsFilter.ml-5(:page='page'  :tableUserSearch='tableUserSearch')
-
-			listOfUser(:userList='userList'  :deleteUser='deleteUser'  :changePassword='changePassword')
+			listOfUser(:userList='userList'  :deleteUser='deleteUser'  :changePassword='changePassword'  :users='user')
 
 	index(v-else  :authUser='authUser'  )
 </template>
@@ -123,11 +121,12 @@ authUser(login, password) {
 
 },
 //_________USER___________________
-    addUser(name, login, password) { // связываем с помощью axios удаление на сервере
+    addUser(status,name, login, password) { // связываем с помощью axios удаление на сервере
       axios({
         method: 'post', //метод запроса POST
         url: 'http://localhost:3000/ajax/users/addUser',
         data: { // у Post должен быть data а не params
+					status,
           name,
           login,
           password,
@@ -152,17 +151,17 @@ authUser(login, password) {
         })
     },
 
-		changePassword(firstInput,secondInput) {
+		changePassword(firstInput,secondInput,userId) {
       axios ({
           method: 'post',
           url: 'http://localhost:3000/ajax/users/changePassword',
 					data: { // у GET должен быть params а не data
 						newPass: {
-		          firstInput,
-		          secondInput
+							firstInput,
+							secondInput,
+						},
+						userId
 					}
-
-	        }
         })
         .then(() => {
           this.refreshUserList(); // после удачного выполнения метода выполнится обновление таблицы
