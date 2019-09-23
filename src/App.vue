@@ -17,7 +17,7 @@ div <!--Должен быть обернут в один div / рендерим 
 				newUserForm.mx-5(:addUser='addUser' )
 				componentsFilter.ml-5(:page='page'  :tableUserSearch='tableUserSearch')
 
-			listOfUser(:userList='userList'  :deleteUser='deleteUser' )
+			listOfUser(:userList='userList'  :deleteUser='deleteUser'  :changePassword='changePassword')
 
 	index(v-else  :authUser='authUser'  )
 </template>
@@ -122,7 +122,7 @@ authUser(login, password) {
 		}) // Получаем json с сервера
 
 },
-
+//_________USER___________________
     addUser(name, login, password) { // связываем с помощью axios удаление на сервере
       axios({
         method: 'post', //метод запроса POST
@@ -149,9 +149,27 @@ authUser(login, password) {
         })
         .then(() => {
           this.refreshUserList(); // после удачного выполнения метода выполнится обновление таблицы
-
         })
     },
+
+		changePassword(firstInput,secondInput) {
+      axios ({
+          method: 'post',
+          url: 'http://localhost:3000/ajax/users/changePassword',
+					data: { // у GET должен быть params а не data
+						newPass: {
+		          firstInput,
+		          secondInput
+					}
+
+	        }
+        })
+        .then(() => {
+          this.refreshUserList(); // после удачного выполнения метода выполнится обновление таблицы
+        })
+    },
+
+		//______________FILES________________
 
 		addFiles(domain,ip){
 			axios ({
@@ -180,6 +198,8 @@ authUser(login, password) {
 				this.refreshFileList()
 			})
 		},
+
+		//________________FILTER_____________________
 
 		tableUserSearch(filterInput){
 			axios({

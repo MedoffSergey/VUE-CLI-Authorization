@@ -1,7 +1,9 @@
 <template lang='pug'>
 div.text-center
-	b-button.mx-2( variant="success" size='sm' @click="$bvModal.show('bv-modal-example2')") Filter++
-	b-button( variant="success" size='sm' @click="tableSearch(filterInput)") Source table
+	b-button-group
+		b-button( variant="success" size='sm' @click="$bvModal.show('bv-modal-example2')") Filter
+		b-button( variant="info" size='sm' @click="tableSearch(filterInput)") Source table
+
 	b-modal#bv-modal-example2( size="sm" ref="my-modal1" hide-footer="" header-bg-variant='primary' body-bg-variant='light')
 		template(slot="modal-title")
 			h4.text-light Filter string
