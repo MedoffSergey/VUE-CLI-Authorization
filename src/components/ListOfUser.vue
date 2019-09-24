@@ -94,7 +94,6 @@
     showModalWindow(id) {
       this.changeModalShow = true
       this.userId = id
-
     }
   }
 }

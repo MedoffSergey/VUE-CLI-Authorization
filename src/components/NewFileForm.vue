@@ -1,6 +1,6 @@
 <template lang='pug'>
 div.text-center
-	b-button( variant="success" size='sm' @click="$bvModal.show('bv-modal-example1')") Add Files
+	b-button(v-if='users.status=="Admin"' variant="success" size='sm' @click="$bvModal.show('bv-modal-example1')") Add Files
 
 	b-modal#bv-modal-example1(size='sm' ref="my-modal" hide-footer="" header-bg-variant='primary' body-bg-variant='light')
 		template(slot="modal-title")
@@ -19,7 +19,7 @@ div.text-center
 <script>
 export default {
   name: "NewFileForm",
-  props: ['addFiles'],
+  props: ['addFiles', 'users'],
 
   data() {
     return {

@@ -7,13 +7,13 @@ div <!--Должен быть обернут в один div / рендерим 
 
 		div(v-if="page=='showFiles'" )
 			div.mt-3.d-flex.justify-content-center
-				newFileForm.mx-5(:addFiles='addFiles'  )
+				newFileForm.mx-5(:addFiles='addFiles'  :users='user')
 				componentsFilter.ml-5(:page='page'  :tableFilesSearch='tableFilesSearch'  )
 			fileTable(:filesList='filesList'  :deleteFile='deleteFile'  :users='user')
 
 		div(v-if="page=='showUser'" )
 			div.mt-3.d-flex.justify-content-center
-				newUserForm.mx-5(:addUser='addUser' )
+				newUserForm.mx-5(:addUser='addUser'  :users='user')
 				componentsFilter.ml-5(:page='page'  :tableUserSearch='tableUserSearch')
 			listOfUser(:userList='userList'  :deleteUser='deleteUser'  :changePassword='changePassword'  :users='user')
 
@@ -73,6 +73,7 @@ export default {
 		refreshUserList() { //получаем таблицу с пользователями
 			axios.get('http://localhost:3000/ajax/users')
 				.then(response => (this.userList = response.data))
+				console.log(response.data )
     },
 
 		refreshFileList(){

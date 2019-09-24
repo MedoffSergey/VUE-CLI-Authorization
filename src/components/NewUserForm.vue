@@ -1,6 +1,6 @@
 <template lang='pug'>
   .div.text-center
-    b-button( variant="success" size='sm' @click="$bvModal.show('bv-modal-example')") Add user
+    b-button(v-if='users.status=="Admin"' variant="success" size='sm' @click="$bvModal.show('bv-modal-example')") Add user
 
     b-modal#bv-modal-example(ref="my-modal" size="sm" header-bg-variant='primary' body-bg-variant='light' hide-footer="")
       template(slot="modal-title")
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  props: ['addUser','token'],
+  props: ['addUser','token','users'],
 
   data(){
     return {
