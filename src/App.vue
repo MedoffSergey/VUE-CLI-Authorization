@@ -61,9 +61,9 @@ export default {
 		this.token=localStorage.getItem('jwttoken')
     if(this.token){
 			this.setTitleAuth()
-			this.giveUser()
 			this.refreshUserList() 	// Вызываем methods refreshUserList для обновления списка пользователей
 			this.refreshFileList()	// Вызываем methods refreshFileList для обновления списка файлов
+			this.giveUser()
 
 		}
 
@@ -73,7 +73,7 @@ export default {
 		refreshUserList() { //получаем таблицу с пользователями
 			axios.get('http://localhost:3000/ajax/users')
 				.then(response => (this.userList = response.data))
-				console.log(response.data )
+
     },
 
 		refreshFileList(){
@@ -85,7 +85,7 @@ export default {
 
 		giveUser() {
 			axios.get('http://localhost:3000/ajax/users/giveUser')
-				.then(response => (this.user = response.data.currentUser))
+				.then(response => (this.user = response.data.currentUser),console.log(this.user))
 
     },
 
@@ -228,12 +228,12 @@ authUser(login, password) {
 //_______ОТОБРАЖАЕМ КОМПОНЕНТЫ_________
 			showFiles() {
 				this.page = 'showFiles'
-				console.log('page',this.page)
+
 			},
 
 			showTableUser() {
 				this.page = 'showUser'
-				console.log('page',this.page)
+
 			}
 //_______ОТОБРАЖАЕМ КОМПОНЕНТЫ_________
   }

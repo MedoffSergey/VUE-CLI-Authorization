@@ -40,8 +40,6 @@
       h4.text-light Change Password
     .d-block.text-right
       form(ref="form" )
-        //- b-form-group.text-left( label="Current id" )
-        //-   b-form-input( v-model.trim='newPass.changeUserId')
         b-form-group.text-left( label="New Password" )
           b-form-input( v-model.trim='newPass.firstInput')
         b-form-group.text-left( label="Confirm the password" )
