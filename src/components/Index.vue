@@ -1,6 +1,7 @@
 <template lang='pug'>
 	.div.text-center.d-flex.justify-content-center
 		div.mt-5
+			div {{message}}
 			b-card.text-light(header="АВТОРИЗАЦИЯ"  header-bg-variant='success' body-bg-variant='light' )
 				template(v-slot:header)
 					div
@@ -17,7 +18,7 @@
 
 <script>
 export default {
-  props: ['authUser'],
+  props: ['authUser','message'],
 
   data() {
     return {

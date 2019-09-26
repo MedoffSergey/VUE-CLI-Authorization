@@ -17,7 +17,7 @@ div <!--Должен быть обернут в один div / рендерим 
 				componentsFilter.ml-5(:page='page'  :tableUserSearch='tableUserSearch')
 			listOfUser(:userList='userList'  :deleteUser='deleteUser'  :changePassword='changePassword'  :users='user')
 
-	index(v-else  :authUser='authUser'  )
+	index(v-else  :authUser='authUser'  :message="message")
 </template>
 
 
@@ -54,6 +54,7 @@ export default {
 			token: null,
 			filesList: [],
 			page: "home",	//переключатель отображаеммых данных
+			message: ""
     }
   },
 
@@ -64,7 +65,6 @@ export default {
 			this.refreshUserList() 	// Вызываем methods refreshUserList для обновления списка пользователей
 			this.refreshFileList()	// Вызываем methods refreshFileList для обновления списка файлов
 			this.giveUser()
-
 		}
 
   },
@@ -85,7 +85,7 @@ export default {
 
 		giveUser() {
 			axios.get('http://localhost:3000/ajax/users/giveUser')
-				.then(response => (this.user = response.data.currentUser),console.log(this.user))
+				.then(response => (this.user = response.data.currentUser))
 
     },
 
@@ -107,7 +107,7 @@ authUser(login, password) {
 			url: 'http://localhost:3000/ajax/users/dataChecking',
 			data: { // у GET должен быть params а не data
 				login,
-				password
+				password,
 			}
 		})
 		.then(response => {
@@ -117,9 +117,11 @@ authUser(login, password) {
 			this.setTitleAuth()
 			this.refreshUserList();
 			this.refreshFileList()
-
 		}) // Получаем json с сервера
-
+		.catch(function (error) {
+			// this.message = error.response.data
+			console.log(error.response.data)
+		});
 },
 //_________USER___________________
     addUser(status,name, login, password) { // связываем с помощью axios удаление на сервере
@@ -150,6 +152,7 @@ authUser(login, password) {
         .then(() => {
           this.refreshUserList(); // после удачного выполнения метода выполнится обновление таблицы
         })
+
     },
 
 		changePassword(firstInput,secondInput,userId) {
