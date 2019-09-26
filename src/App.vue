@@ -118,9 +118,9 @@ authUser(login, password) {
 			this.refreshUserList();
 			this.refreshFileList()
 		}) // Получаем json с сервера
-		.catch(function (error) {
-			// this.message = error.response.data
+		.catch((error)=> {
 			console.log(error.response.data)
+			this.message = error.response.data.message
 		});
 },
 //_________USER___________________
