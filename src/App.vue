@@ -15,7 +15,7 @@ div <!--Должен быть обернут в один div / рендерим 
 			div.mt-3.d-flex.justify-content-center
 				newUserForm.mx-5(:addUser='addUser'  :users='user')
 				componentsFilter.ml-5(:page='page'  :tableUserSearch='tableUserSearch')
-			listOfUser(:userList='userList'  :deleteUser='deleteUser'  :changePassword='changePassword'  :users='user')
+			listOfUser(:errorServerMessage='errorServerMessage'  :userList='userList'  :deleteUser='deleteUser'  :changePassword='changePassword'  :users='user')
 
 	index(v-else  :authUser='authUser'  :message="message")
 </template>
@@ -54,7 +54,8 @@ export default {
 			token: null,
 			filesList: [],
 			page: "home",	//переключатель отображаеммых данных
-			message: ""
+			message: "",
+			errorServerMessage:""
     }
   },
 
@@ -133,12 +134,14 @@ authUser(login, password) {
           name,
           login,
           password,
-
         }
-
       }).then(() => { // после удачного выполнения метода выполнится обновление таблицы
         this.refreshUserList()
       })
+			.catch((error)=> {
+					this.errorServerMessage = error.response.data.message
+				  console.log(this.errorServerMessage)
+				});
     },
 
     deleteUser(id) {

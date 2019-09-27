@@ -1,6 +1,6 @@
 <template lang='pug'>
 	.div.text-center.d-flex.justify-content-center
-		div.mt-5
+		div.mt-5.w-25
 			b-card.text-light( header="АВТОРИЗАЦИЯ"  header-bg-variant='success' body-bg-variant='light' )
 				template(v-slot:header)
 					div
@@ -11,11 +11,11 @@
 					b-form-input#login-input( v-model.trim='User.login')
 				b-form-group.text-left.text-dark( label="Пароль" label-for="password-input"  )
 					b-form-input#password-input(type='password' v-model.trim='User.password')
-				b-card-footer.mt-4
-					div.text-dark.font-italic {{message}}
+				b-card-footer.mt-4.m-auto
+					div.text-dark.font-italic.badge.badge-pill.badge-light {{message}}
 				b-button.btn-block(type="submit" variant="outline-success" @click="userVerification(User.login,User.password)") Войти
 </template>
-widt
+
 
 <script>
 export default {
