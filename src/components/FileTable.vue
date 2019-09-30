@@ -1,5 +1,10 @@
 <template lang='pug'>
 	.container
+		b-card.w-50.mx-auto.my-3
+			b-form-group.text-left.text-dark( label="Directory" label-for="directory-input" )
+				b-form-input#directory-input( v-model.trim='directory')
+			b-button( variant="outline-success"  @click="expandDirectory(directory)") show
+			b-button.mx-2( variant="outline-danger"  @click="clearInputDirectory()") clear
 		table.table.table-bordered.mt-3.text-center
 			thead.thead-light
 				tr
@@ -19,29 +24,37 @@
 <script>
 export default {
   name: "files",
-  props: ['filesList', 'deleteFile','users'], // обьект с App.vue
+  props: ['filesList', 'deleteFile','users','directoryContent'], // обьект с App.vue
   data() {
     return {
       sortDir: '', // ??????????????????????????????????????????
-      sortRes: ''
+      sortRes: '',
+			directory: ''
     }
   },
 
-  computed: { // вычисляемое свойство
-    sortTableUp: function() { //Функция сортировки
-      let col = this.sortRes //переменная хранящая название колонки
-      let dir = this.sortDir //переменная хранящая в себе значение up & down
+	  computed: { // вычисляемое свойство
+	    sortTableUp: function() { //Функция сортировки
+	      let col = this.sortRes //переменная хранящая название колонки
+	      let dir = this.sortDir //переменная хранящая в себе значение up & down
 
-      return this.filesList.slice().sort(function(a, b) {
-        let modifier = -1;
-        if (dir == 'up') modifier = 1
-        if (a[col] > b[col]) return 1 * modifier;
-        else if (a[col] < b[col]) return -1 * modifier;
-        else return 0;
-      })
-    }
-  }
+	      return this.filesList.slice().sort(function(a, b) {
+	        let modifier = -1;
+	        if (dir == 'up') modifier = 1
+	        if (a[col] > b[col]) return 1 * modifier;
+	        else if (a[col] < b[col]) return -1 * modifier;
+	        else return 0;
+	      })
+	    }
+	  },
+		methods: {
+		expandDirectory() {
+			this.directoryContent(this.directory)
+		},
+		clearInputDirectory(){
+			this.directory = ''
+		}
+	}
 }
-
 
 </script>

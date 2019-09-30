@@ -9,13 +9,13 @@ div <!--Должен быть обернут в один div / рендерим 
 			div.mt-3.d-flex.justify-content-center
 				newFileForm.mx-5(:addFiles='addFiles'  :users='user')
 				componentsFilter.ml-5(:page='page'  :tableFilesSearch='tableFilesSearch'  )
-			fileTable(:filesList='filesList'  :deleteFile='deleteFile'  :users='user')
+			fileTable(:directoryContent='directoryContent'  :filesList='filesList'  :deleteFile='deleteFile'  :users='user')
 
 		div(v-if="page=='showUser'" )
 			div.mt-3.d-flex.justify-content-center
-				newUserForm.mx-5(:addUser='addUser'  :users='user')
+				newUserForm.mx-5(:errorServerMessage='errorServerMessage'  :addUser='addUser'  :users='user')
 				componentsFilter.ml-5(:page='page'  :tableUserSearch='tableUserSearch')
-			listOfUser(:errorServerMessage='errorServerMessage'  :userList='userList'  :deleteUser='deleteUser'  :changePassword='changePassword'  :users='user')
+			listOfUser(  :userList='userList'  :deleteUser='deleteUser'  :changePassword='changePassword'  :users='user')
 
 	index(v-else  :authUser='authUser'  :message="message")
 </template>
@@ -112,6 +112,7 @@ authUser(login, password) {
 			}
 		})
 		.then(response => {
+			this.message = null
 			this.user =  response.data  // присвоим переменной полученного пользователя с сервера
 			this.token = response.data.token	// присвоим переменной токен полученный токен с сервера
 			localStorage.setItem('jwttoken',response.data.token)	//Следующая функция создает элемент с данными в хранилище.
@@ -198,6 +199,19 @@ authUser(login, password) {
 				url: 'http://localhost:3000/ajax/users/deleteFiles',
 				data: { // у GET должен быть params а не data
 					files
+				}
+			})
+			.then(() => {
+				this.refreshFileList()
+			})
+		},
+
+		directoryContent(directory){
+			axios({
+				method: 'post',
+				url: 'http://localhost:3000/ajax/users/directoryContent',
+				data: { // у GET должен быть params а не data
+					directory
 				}
 			})
 			.then(() => {

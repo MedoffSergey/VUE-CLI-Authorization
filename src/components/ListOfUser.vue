@@ -1,8 +1,5 @@
 <template lang='pug'>
 .container-fluid
-
-  //- div(v-if = "errorServerMessage").text-center.text-light.font-italic.badge.badge-pill.badge-danger {{errorServerMessage}}
-  b-alert.w-25.mx-auto.my-3.text-dark.font-italic(show="" dismissible="") {{errorServerMessage}}
   table.table.table-bordered.mt-3.text-center
     thead.thead-light
       tr
@@ -53,7 +50,7 @@
 <script>
 
   export default {
-    props: ['userList','deleteUser','changePassword', 'users','errorServerMessage'],  // массив с App.vue
+    props: ['userList','deleteUser','changePassword', 'users'],  // массив с App.vue
 
     data(){
       return {

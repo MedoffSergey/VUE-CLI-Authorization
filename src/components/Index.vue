@@ -12,8 +12,12 @@
 				b-form-group.text-left.text-dark( label="Пароль" label-for="password-input"  )
 					b-form-input#password-input(type='password' v-model.trim='User.password')
 				b-card-footer.mt-4.m-auto
-					div.text-dark.font-italic.badge.badge-pill.badge-light {{message}}
-				b-button.btn-block(type="submit" variant="outline-success" @click="userVerification(User.login,User.password)") Войти
+				div
+					b-alert(:show="dismissCountDown" dismissible="" variant="danger" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged")
+						div {{message}}
+
+
+				b-button.btn-block(type="submit" variant="outline-success" @click="userVerification(User.login,User.password);showAlert()") Войти
 </template>
 
 
@@ -27,17 +31,28 @@ export default {
         login: '',
         password: '',
 				token: ''
-      }
+      },
+			dismissSecs: 3,
+			dismissCountDown: 0
     }
   },
 
-  methods: {
-    userVerification() {
-      this.authUser(this.User.login, this.User.password)
 
-      this.User.login = "";
-      this.User.password = "";
-    }
+		methods: {
+				 countDownChanged(dismissCountDown) {
+					 this.dismissCountDown = dismissCountDown
+				 },
+				 showAlert() {
+					 this.dismissCountDown = this.dismissSecs
+				 },
+				 userVerification() {
+						 this.authUser(this.User.login, this.User.password)
+
+						 this.User.login = "";
+						 this.User.password = "";
+
+					 }
+			 }
   }
-}
+
 </script>

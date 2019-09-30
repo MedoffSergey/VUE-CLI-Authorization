@@ -16,13 +16,14 @@
             div.float-left
               b-form-checkbox(v-model="newUser.status" name="check-button" switch="")
                 | Admin
-
-            b-button.mx-2(@click="addNewUser(); $bvModal.hide('bv-modal-example')" size="sm"  variant="outline-success") Add
+            b-alert(:show="dismissCountDown" dismissible="" variant="danger" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged")
+              div {{errorServerMessage}}
+            b-button.mx-2(@click="addNewUser();showAlert()" size="sm"  variant="outline-success") Add
 </template>
 
 <script>
 export default {
-  props: ['addUser','token','users'],
+  props: ['addUser','token','users','errorServerMessage'],
 
   data(){
     return {
@@ -31,18 +32,29 @@ export default {
         login: '',
         password: '',
         status: ''
-      }
+      },
+      dismissSecs: 3,
+      dismissCountDown: 0
     }
   },
 
   methods: {
+       countDownChanged(dismissCountDown) {
+         this.dismissCountDown = dismissCountDown
+       },
+       showAlert() {
+         this.dismissCountDown = this.dismissSecs
+       },
     addNewUser() {
       this.addUser(this.newUser.status,this.newUser.name, this.newUser.login, this.newUser.password)
         this.newUser.status ="",
         this.newUser.name="";
         this.newUser.login="";
         this.newUser.password="";
-    }
+        
+        this.$bvModal.hide('bv-modal-example')
+
+  }
   }
 }
 </script>
