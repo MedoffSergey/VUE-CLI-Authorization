@@ -13,7 +13,7 @@ div <!--Должен быть обернут в один div / рендерим 
 
 		div(v-if="page=='showUser'" )
 			div.mt-3.d-flex.justify-content-center
-				newUserForm.mx-5(:errorServerMessage='errorServerMessage'  :addUser='addUser'  :users='user')
+				newUserForm.mx-5(:addUser='addUser'  :errorServerMessage='errorServerMessage'  :users='user')
 				componentsFilter.ml-5(:page='page'  :tableUserSearch='tableUserSearch')
 			listOfUser(  :userList='userList'  :deleteUser='deleteUser'  :changePassword='changePassword'  :users='user')
 
@@ -55,7 +55,8 @@ export default {
 			filesList: [],
 			page: "home",	//переключатель отображаеммых данных
 			message: "",
-			errorServerMessage:""
+			errorServerMessage:"",
+			showDismissibleAlert:""
     }
   },
 
@@ -91,10 +92,10 @@ export default {
     },
 
 		setTitleAuth() {
-			if(this.token){
-				axios.defaults.headers.common = {Authorization : `bearer ${this.token}`}		// bearer вид аунтификации такой // прикрепляю заголовок авторизации
-		}
-	},
+				if(this.token){
+					axios.defaults.headers.common = {Authorization : `bearer ${this.token}`}		// bearer вид аунтификации такой // прикрепляю заголовок авторизации
+			}
+		},
 
 		exitUser() {
 				this.token = null
@@ -102,48 +103,50 @@ export default {
 				localStorage.removeItem('jwttoken')
 			},
 
-authUser(login, password) {
-	axios({
-			method: 'post',
-			url: 'http://localhost:3000/ajax/users/dataChecking',
-			data: { // у GET должен быть params а не data
-				login,
-				password,
-			}
-		})
-		.then(response => {
-			this.message = null
-			this.user =  response.data  // присвоим переменной полученного пользователя с сервера
-			this.token = response.data.token	// присвоим переменной токен полученный токен с сервера
-			localStorage.setItem('jwttoken',response.data.token)	//Следующая функция создает элемент с данными в хранилище.
-			this.setTitleAuth()
-			this.refreshUserList();
-			this.refreshFileList()
-		}) // Получаем json с сервера
-		.catch((error)=> {
-			console.log(error.response.data)
-			this.message = error.response.data.message
-		});
-},
-//_________USER___________________
-    addUser(status,name, login, password) { // связываем с помощью axios удаление на сервере
-      axios({
-        method: 'post', //метод запроса POST
-        url: 'http://localhost:3000/ajax/users/addUser',
-        data: { // у Post должен быть data а не params
-					status,
-          name,
-          login,
-          password,
-        }
-      }).then(() => { // после удачного выполнения метода выполнится обновление таблицы
-        this.refreshUserList()
-      })
-			.catch((error)=> {
-					this.errorServerMessage = error.response.data.message
-				  console.log(this.errorServerMessage)
+		authUser(login, password) {
+			axios({
+					method: 'post',
+					url: 'http://localhost:3000/ajax/users/dataChecking',
+					data: { // у GET должен быть params а не data
+						login,
+						password,
+					}
+				})
+				.then(response => {
+					this.message = null
+					this.user =  response.data  // присвоим переменной полученного пользователя с сервера
+					this.token = response.data.token	// присвоим переменной токен полученный токен с сервера
+					localStorage.setItem('jwttoken',response.data.token)	//Следующая функция создает элемент с данными в хранилище.
+					this.setTitleAuth()
+					this.refreshUserList();
+					this.refreshFileList()
+				}) // Получаем json с сервера
+				.catch((error)=> {
+					console.log(error.response.data)
+					this.message = error.response.data.message
 				});
-    },
+		},
+//_________USER___________________
+		addUser(status,name, login, password) { // связываем с помощью axios удаление на сервере
+			return axios({
+	         method: 'post', //метод запроса POST
+	         url: 'http://localhost:3000/ajax/users/addUser',
+	         data: { // у Post должен быть data а не params
+	           status ,
+	           name ,
+	           login ,
+	           password
+	         }
+	       }).then(() => { // после удачного выполнения метода выполнится обновление таблицы
+	         this.refreshUserList()
+	       })
+	       .catch((error)=> {
+	           this.errorServerMessage = error.response.data.message;
+	           this.showDismissibleAlert = true;
+	           console.log(this.errorServerMessage)
+	         });
+		},
+
 
     deleteUser(id) {
       axios ({
