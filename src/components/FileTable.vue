@@ -3,8 +3,8 @@
 		b-card.w-50.mx-auto.my-3
 			b-form-group.text-left.text-dark( label="Directory" label-for="directory-input" )
 				b-form-input#directory-input( v-model.trim='directory')
-			b-button( variant="outline-success"  @click="expandDirectory(directory)") show
-			b-button.mx-2( variant="outline-danger"  @click="clearInputDirectory()") clear
+			b-button(size='sm' variant="outline-success"  @click="expandDirectory(directory)") Show
+			span.ml-3 Amount received =
 		table.table.table-bordered.mt-3.text-center
 			thead.thead-light
 				tr
@@ -29,11 +29,11 @@ export default {
     return {
       sortDir: '', // ??????????????????????????????????????????
       sortRes: '',
-			directory: ''
+      directory: ''
     }
   },
 
-	  computed: { // вычисляемое свойство
+		computed: { // вычисляемое свойство
 	    sortTableUp: function() { //Функция сортировки
 	      let col = this.sortRes //переменная хранящая название колонки
 	      let dir = this.sortDir //переменная хранящая в себе значение up & down
@@ -50,8 +50,6 @@ export default {
 		methods: {
 		expandDirectory() {
 			this.directoryContent(this.directory)
-		},
-		clearInputDirectory(){
 			this.directory = ''
 		}
 	}

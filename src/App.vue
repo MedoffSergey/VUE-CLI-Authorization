@@ -129,43 +129,43 @@ export default {
 //_________USER___________________
 		addUser(status,name, login, password) { // связываем с помощью axios удаление на сервере
 			return axios({
-	         method: 'post', //метод запроса POST
-	         url: 'http://localhost:3000/ajax/users/addUser',
-	         data: { // у Post должен быть data а не params
-	           status ,
-	           name ,
-	           login ,
-	           password
-	         }
-	       }).then(() => { // после удачного выполнения метода выполнится обновление таблицы
-	         this.refreshUserList()
-	       })
-	       .catch((error)=> {
-	           this.errorServerMessage = error.response.data.message;
-	           this.showDismissibleAlert = true;
-	           console.log(this.errorServerMessage)
-	         });
+				method: 'post', //метод запроса POST
+				url: 'http://localhost:3000/ajax/users/addUser',
+				data: { // у Post должен быть data а не params
+					status ,
+					name ,
+					login ,
+					password
+					}
+				}).then(() => { // после удачного выполнения метода выполнится обновление таблицы
+					this.refreshUserList()
+				})
+				.catch((error)=> {
+						this.errorServerMessage = error.response.data.message;
+						this.showDismissibleAlert = true;
+						console.log(this.errorServerMessage)
+					});
 		},
 
 
-    deleteUser(id) {
-      axios ({
-          method: 'post',
-          url: 'http://localhost:3000/ajax/users/deleteUser',
-          data: { // у GET должен быть params а не data
-            id
+		deleteUser(id) {
+			axios ({
+					method: 'post',
+					url: 'http://localhost:3000/ajax/users/deleteUser',
+					data: { // у GET должен быть params а не data
+						id
 					}
-        })
-        .then(() => {
-          this.refreshUserList(); // после удачного выполнения метода выполнится обновление таблицы
-        })
+				})
+				.then(() => {
+					this.refreshUserList(); // после удачного выполнения метода выполнится обновление таблицы
+				})
 
-    },
+			},
 
 		changePassword(firstInput,secondInput,userId) {
-      axios ({
-          method: 'post',
-          url: 'http://localhost:3000/ajax/users/changePassword',
+			axios ({
+					method: 'post',
+					url: 'http://localhost:3000/ajax/users/changePassword',
 					data: { // у GET должен быть params а не data
 						newPass: {
 							firstInput,

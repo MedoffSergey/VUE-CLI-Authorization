@@ -6,8 +6,8 @@ div
 		b-navbar-toggle(target="nav-collapse")
 		b-collapse#nav-collapse(is-nav="")
 			b-navbar-nav.h5
-				b-nav-item(href="#"  @click='showTableUser') Пользователи
-				b-nav-item(href="#" @click='showFiles') Файлы
+				b-nav-item(href="#"  @click='showTableUser') Users
+				b-nav-item(href="#" @click='showFiles') Files
 
 			// Right aligned nav items
 			b-navbar-nav.ml-auto
@@ -20,7 +20,7 @@ div
 						b-dropdown-item Login: {{user.login}}
 						b-dropdown-item User ID: {{user.id}}
 						b-dropdown-divider
-						b-dropdown-item(@click='exitUser') Выход
+						b-dropdown-item(@click='exitUser') Logout
 </template>
 
 
